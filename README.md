@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Projeto criado durante a maratona JS Emerson Broga
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
