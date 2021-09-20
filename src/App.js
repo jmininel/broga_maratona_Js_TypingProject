@@ -34,11 +34,28 @@ const Word = ({word, validKeys}) => {
 const App = () => {
    const [typedKeys, setTypedKeys] = useState([]);
    const [validKeys, setValidKeys] = useState([]);
+   const [completedWords, setCompletedWords] = useState([]);
    const [word, setWord] = useState('');
 
    useEffect(() => {
    setWord(getWord());
    }, []);
+
+   useEffect(() => {
+     const wordFromValidKeys = validKeys.join('').toLocaleLowerCase();
+     if( word && word === wordFromValidKeys) {
+          let newWord = null;
+          do {
+            newWord = getWord();
+          }while(completedWords.includes(newWord)); 
+
+          setWord(newWord);
+          setValidKeys([]);
+          setCompletedWords((prev) => [...prev, word]);
+     }
+
+
+   }, [word, validKeys])
     
    const handleKeyDown = (e) => {
       e.preventDefault();
@@ -63,9 +80,10 @@ const App = () => {
        <div className="typed-keys">{typedKeys ? typedKeys.join(' ') : null}</div>
        <div className="completed-words">
            <ol>
-               <li>cidade</li>
-               <li>carro</li>
-            </ol>
+               {completedWords.map((word) => (
+                 <li key={word}>{word}</li>
+             ))}
+           </ol>
          </div>
       </div>
     );
